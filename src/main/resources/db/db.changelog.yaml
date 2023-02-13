@@ -1,0 +1,232 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: creat-tables
+      author: java-machine
+      changes:
+        - createTable:
+            schema: public
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone_number
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: email
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - createTable:
+            schema: public
+            tableName: city
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: short_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - createTable:
+            schema: public
+            tableName: authorities
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+        - createTable:
+            schema: public
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authority_id
+                  type: int
+                  constraints:
+                    nullable: false
+        - createTable:
+            schema: public
+            tableName: subscriptions
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: subscribed_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - createTable:
+            schema: public
+            tableName: weather
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: city_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: temperature
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: wind
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: humidity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: visibility
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pressure
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: triggers
+      author: java_machine
+      dbms: '!h2'
+      changes:
+        - sqlFile:
+            encoding: utf-8
+            splitStatements: false
+            path: db/triggers/user_role_trigger.sql
+            stripComments: true
+  - changeSet:
+      id: mock_info
+      author: java_machine
+      dbms: 'h2'
+      changes:
+        - sqlFile:
+            encoding: utf-8
+            splitStatements: false
+            path: db/mock/insert_mock_users.sql
+            stripComments: true
