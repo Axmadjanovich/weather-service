@@ -29,6 +29,11 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
         return null;
     }
 
+    /**
+     * Gets token from request and validates it. After successfully validation user info will be added to ReactiveSecurityContextHolder
+     * @param exchange Request instance
+     * @return SecurityContext with authentication info
+     */
     @Override
     public Mono<SecurityContext> load(ServerWebExchange exchange) {
         ServerHttpRequest request = exchange.getRequest();
@@ -44,7 +49,6 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
         if (token != null){
             Authentication authentication = new UsernamePasswordAuthenticationToken(token, token);
             ReactiveSecurityContextHolder.withSecurityContext(Mono.just(new SecurityContextImpl(authentication)));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
 
             return authenticationManager.authenticate(authentication).map(SecurityContextImpl::new);
         } else {

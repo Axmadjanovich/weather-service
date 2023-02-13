@@ -61,7 +61,6 @@ public class CitiesIntegrationTest {
 
     @Test
     @Order(2)
-//    @Sql(value = "/db/mock/insert_mock_users.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void add_new_user(){
 
         UsersDto testUser = UsersDto.builder()

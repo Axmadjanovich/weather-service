@@ -78,14 +78,18 @@ public class DatabaseConfig extends AbstractR2dbcConfiguration {
 //        return initializer;
 //    }
 
+    /**
+     * Bean for define datasource while executing SQL scripts during Integration test
+     * @return Datasource
+     */
     @Profile("test")
     @Bean
     public DataSource postgres(){
         DriverManagerDataSource dmds = new DriverManagerDataSource();
         dmds.setDriverClassName("org.postgresql.Driver");
-        dmds.setUsername("postgres");
-        dmds.setPassword("imueaa0131");
-        dmds.setUrl("jdbc:postgresql://localhost:5432/weather_test");
+        dmds.setUsername(username);
+        dmds.setPassword(password);
+        dmds.setUrl(String.format("jdbc:postgresql://%s:%d/%s", host, port, database));
         return dmds;
     }
 }

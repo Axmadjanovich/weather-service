@@ -36,7 +36,6 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
 
             Users user = gson.fromJson(jwtService.getClaim(token, "sub", String.class), Users.class);
             UsernamePasswordAuthenticationToken authenticatedUser = new UsernamePasswordAuthenticationToken(user, null, roles);
-            SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
             return Mono.just(authenticatedUser);
         }else {
             return Mono.empty();
